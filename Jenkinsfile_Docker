@@ -9,7 +9,7 @@ pipeline {
         /*
         stage('Checkout SCM') {
             steps {
-                git branch: 'master', url: 'https://github.com/devops-mitocode/spring-petclinic-rest.git'
+                git branch: 'master', url: 'https://github.com/anchayhua/spring-petclinic-rest.git'
             }
         }
         */
@@ -36,6 +36,15 @@ pipeline {
                 }
             }
         }
+        /*
+        stage("Quality Gate"){
+            steps{
+                timeout(time: 1, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                    
+                }
+            }
+        }*/
     }
     post {
         success {

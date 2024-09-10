@@ -1,0 +1,56 @@
+pipeline {
+    agent {
+        docker {
+            image 'maven:3.8.8-eclipse-temurin-17-alpine'
+            // args '-v … -e …'   
+        }   
+    }
+    stages {
+        /*
+        stage('Checkout SCM') {
+            steps {
+                git branch: 'master', url: 'https://github.com/anchayhua/spring-petclinic-rest.git'
+            }
+        }
+        */
+        stage('Test') {
+            steps {
+                sh 'mvn clean test -B -ntp'
+            }
+            post {
+                success {
+                    junit '**/target/surefire-reports/*.xml'
+                    jacoco(execPattern: 'target/jacoco.exec')
+                }
+            }
+        }
+        stage('Package') {
+            steps {
+                sh 'mvn package -DskipTests -B -ntp'
+            }
+        }
+        tage('SonarQube') {
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    sh 'mvn sonar:sonar -B -ntp' 
+                }
+            }
+        }
+        /*
+        stage("Quality Gate"){
+            steps{
+                timeout(time: 1, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                    
+                }
+            }
+        }*/
+    }
+    post {
+        success {
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            cleanWs()
+        }
+    }
+    
+}

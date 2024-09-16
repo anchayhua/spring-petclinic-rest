@@ -57,7 +57,7 @@ pipeline {
                     // MODE 1
                     
                     // sh 'env | sort'
-                    // env.MAVEN_HOME = 'usr/share/maven'
+                    // // env.MAVEN_HOME = 'usr/share/maven'
 
                     // def releases = 'spring-petclinic-rest-release'
                     // def snapshots = 'spring-petclinic-rest-snapshot'
@@ -69,7 +69,7 @@ pipeline {
                     // rtMaven.deployer server: server, releaseRepo: releases, snapshotRepo: snapshots
 
                     // // Construye el proyecto con Maven
-                    // def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean package -B -ntp -DskipTests'
+                    // def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install -B -ntp -DskipTests'
 
                     // // Verifica si el archivo .jar fue generado correctamente
                     // sh 'ls -l target/'

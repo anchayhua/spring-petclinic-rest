@@ -1,8 +1,9 @@
 pipeline {
-    agent none
+    agent none      //enable in node
     stages {
         /*
         stage('Checkout SCM') {
+            agent any
             steps {
                 git branch: 'master', url: 'https://github.com/anchayhua/spring-petclinic-rest.git'
 
